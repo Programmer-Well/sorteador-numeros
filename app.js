@@ -6,17 +6,27 @@ function sortear() {
     let ate = parseInt(document.getElementById('ate').value);
     let resultado = document.getElementById('resultado');
 
-    for (let i = 0; i < quantidade; i++) {
-        numero = obterNumeroAleatorio(de, ate);
-        while (sorteados.includes(numero)) {
+    if (de > ate) {
+        alert('Número inicial não pode ser maior que o final, tente novamente.');
+        alterarStatusBotao();
+        reiniciar();
+    } else if (quantidade > (ate - de + 1)) {
+        alert('Campo "Quantidade" deve ser menor ou igual ao intervalo informado no campo "Do número" até o campo "Até o número". Verifique!');
+        alterarStatusBotao();
+        reiniciar();
+    } else {
+        for (let i = 0; i < quantidade; i++) {
             numero = obterNumeroAleatorio(de, ate);
+
+            while (sorteados.includes(numero)) {
+                numero = obterNumeroAleatorio(de, ate);
+                alert('Tentando obter número inédito');
+            }
+            sorteados.push(numero);
         }
-
-        sorteados.push(numero);
+        resultado.innerHTML = `<label class = "texto__paragrafo" > Números sorteados: ${sorteados} </label>`;
+        alterarStatusBotao();
     }
-
-    resultado.innerHTML = `<label class = "texto__paragrafo" > Números sorteados: ${sorteados} </label>`;
-    alterarStatusBotao();
 }
 
 function alterarStatusBotao() {
